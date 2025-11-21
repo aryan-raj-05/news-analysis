@@ -17,7 +17,7 @@ export default function App() {
     setStatus("Ingesting...");
     setAnswer(null);
     try {
-      const res = await fetch("http://localhost:8000/ingest", {
+      const res = await fetch("/ingest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ urls }),
@@ -37,7 +37,7 @@ export default function App() {
     setAnswer("Thinking...");
     setEvidence([]);
     try {
-      const res = await fetch("http://localhost:8000/query", {
+      const res = await fetch("/query", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question }),
