@@ -10,8 +10,8 @@ import google.generativeai as genai
 load_dotenv()
 
 # Configure Gemini API key
-GEMINI_KEY = os.getenv("GEMINI_API_KEY")
-genai.configure(api_key=GEMINI_KEY)
+API_KEY = os.getenv("GOOGLE_API_KEY")
+genai.configure(api_key=API_KEY)
 
 # Load embedding model (local, unchanged)
 _model = SentenceTransformer("all-MiniLM-L6-v2")
@@ -65,12 +65,12 @@ def generate_answer(question: str, retrieved_passages: List[Dict]) -> str:
     )
 
     try:
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = genai.GenerativeModel("models/gemini-2.5-flash")
         response = model.generate_content(prompt)
+        print("Gemini raw response:", response)
         return response.text.strip()
+
     except Exception as e:
-        # local deterministic fallback
-        combined = "\n\n".join([rp["doc"]["text"] for rp in retrieved_passages])
-        snippet = combined[:1200]
-        cites = "[" + ",".join(str(i + 1) for i in range(len(retrieved_passages))) + "]"
-        return f"{snippet}\n\nSupporting passages: {cites}"
+        print("Gemini ERROR:", repr(e))
+        raise
+
