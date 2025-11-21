@@ -4,6 +4,6 @@ requests
 beautifulsoup4
 sentence-transformers
 faiss-cpu
-openai
 python-dotenv
 numpy
+google-generativeai
