@@ -1,10 +1,18 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from ingest import ingest_urls
 from rag import retrieve, generate_answer
 import traceback
+import os
 
-app = Flask(__name__)
+BUILD_DIR = os.path.join(os.path.dirname(__file__), "dist")
+
+app = Flask(
+    __name__,
+    static_folder=BUILD_DIR,
+    static_url_path="/"
+)
+
 CORS(app)
 
 @app.route("/ingest", methods=["POST"])
@@ -27,6 +35,7 @@ def ingest():
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
+
 @app.route("/query", methods=["POST"])
 def query():
     try:
@@ -48,10 +57,17 @@ def query():
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
+
 @app.route("/status", methods=["GET"])
 def status():
     return jsonify({"status": "ok"})
 
+
+@app.errorhandler(404)
+def frontend(_):
+    return send_from_directory(BUILD_DIR, "index.html")
+
+
 if __name__ == "__main__":
     # default port 8000 to match project plan
-    app.run(host="0.0.0.0", port=8000, debug=True)
+    app.run(host="0.0.0.0", port=8000)
