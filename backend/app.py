@@ -68,6 +68,6 @@ def frontend(_):
     return send_from_directory(BUILD_DIR, "index.html")
 
 
-if __name__ == "__main__":
-    # default port 8000 to match project plan
-    app.run(host="0.0.0.0", port=8000)
+if __name__ == '__main__':
+    port = int(os.getenv("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
