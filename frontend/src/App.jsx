@@ -55,62 +55,92 @@ export default function App() {
   };
 
   return (
-    <div style={{ maxWidth: 900, margin: "24px auto", fontFamily: "Inter, Arial, sans-serif" }}>
-      <h2>Financial RAG — Demo</h2>
+    <div className="min-h-screen bg-gray-100 flex justify-center py-10 px-4">
+      <div className="w-full max-w-3xl bg-white shadow-md rounded-xl p-8">
+        
+        <h2 className="text-3xl font-semibold text-gray-800 mb-6 text-center">
+          Financial RAG
+        </h2>
 
-      <section style={{ marginBottom: 20 }}>
-        <h4>Step 1 — Paste exactly 3 article URLs</h4>
-        {urls.map((u, i) => (
-          <div key={i} style={{ marginBottom: 8 }}>
-            <input
-              value={u}
-              onChange={(e) => updateUrl(i, e.target.value)}
-              style={{ width: "90%", padding: 8 }}
-              placeholder={`URL ${i + 1}`}
-            />
-          </div>
-        ))}
-        <button onClick={ingest} style={{ padding: "8px 12px" }}>
-          Ingest URLs
-        </button>
-        <div style={{ marginTop: 8 }}>{status}</div>
-      </section>
+        {/* Ingest Section */}
+        <div className="mb-10">
+          <h4 className="text-xl font-medium text-gray-700 mb-4">
+            Enter the URLs you want to process
+          </h4>
 
-      <hr />
+          {urls.map((u, i) => (
+            <div key={i} className="mb-3">
+              <input
+                value={u}
+                onChange={(e) => updateUrl(i, e.target.value)}
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                placeholder={`URL ${i + 1}`}
+              />
+            </div>
+          ))}
 
-      <section style={{ marginTop: 20 }}>
-        <h4>Step 2 — Ask a question</h4>
-        <input
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          style={{ width: "90%", padding: 8 }}
-          placeholder="Ask something about the ingested articles"
-        />
-        <div style={{ marginTop: 8 }}>
-          <button onClick={ask} style={{ padding: "8px 12px" }}>
+          <button
+            onClick={ingest}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg shadow transition"
+          >
+            Ingest URLs
+          </button>
+
+          <p className="mt-3 text-gray-600">{status}</p>
+        </div>
+
+        <hr className="border-gray-300 mb-10" />
+
+        {/* Query Section */}
+        <div>
+          <h4 className="text-xl font-medium text-gray-700 mb-4">
+            Ask a question
+          </h4>
+
+          <input
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            placeholder="Ask something about the ingested articles"
+          />
+
+          <button
+            onClick={ask}
+            className="mt-4 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow transition"
+          >
             Ask
           </button>
-        </div>
 
-        <div style={{ marginTop: 16 }}>
-          <h4>Answer</h4>
-          <div style={{ whiteSpace: "pre-wrap", background: "#fafafa", padding: 12, borderRadius: 6 }}>
-            {answer}
+          {/* Answer */}
+          <div className="mt-8">
+            <h4 className="text-xl font-semibold text-gray-700 mb-2">Answer</h4>
+            <div className="bg-gray-50 border border-gray-200 p-4 rounded-lg shadow-inner whitespace-pre-wrap min-h-[80px]">
+              {answer}
+            </div>
+
+            {/* Evidence */}
+            <h5 className="text-lg font-semibold text-gray-700 mt-6 mb-2">Evidence</h5>
+            <ul className="list-disc ml-6 text-gray-700">
+              {evidence.map((ev, i) => (
+                <li key={i} className="mb-2">
+                  <a
+                    href={ev.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-indigo-600 hover:text-indigo-800 underline"
+                  >
+                    {ev.url}
+                  </a>
+                  <span className="ml-1 text-sm text-gray-500">
+                    (score: {ev.score.toFixed(3)})
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
-
-          <h5>Evidence</h5>
-          <ul>
-            {evidence.map((ev, i) => (
-              <li key={i}>
-                <a href={ev.url} target="_blank" rel="noreferrer">
-                  {ev.url}
-                </a>{" "}
-                (score: {ev.score.toFixed(3)})
-              </li>
-            ))}
-          </ul>
         </div>
-      </section>
+
+      </div>
     </div>
   );
 }
