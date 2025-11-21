@@ -114,7 +114,7 @@ export default function App() {
           {/* Answer */}
           <div className="mt-8">
             <h4 className="text-xl font-semibold text-gray-700 mb-2">Answer</h4>
-            <div className="bg-gray-50 border border-gray-200 p-4 rounded-lg shadow-inner whitespace-pre-wrap min-h-[80px]">
+            <div className="bg-gray-50 border border-gray-200 p-4 rounded-lg shadow-inner whitespace-pre-wrap min-h-20">
               {answer}
             </div>
 
