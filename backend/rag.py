@@ -9,11 +9,9 @@ import google.generativeai as genai
 
 load_dotenv()
 
-# Configure Gemini API key
 API_KEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=API_KEY)
 
-# Load embedding model (local, unchanged)
 _model = SentenceTransformer("all-MiniLM-L6-v2")
 
 _index: Optional[faiss.IndexFlatL2] = None

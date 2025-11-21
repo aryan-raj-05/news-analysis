@@ -1,5 +1,3 @@
-# ingest.py
-# Ingest URLs: scrape, split into passages, embed and index.
 from typing import List
 from scraper import scrape
 from rag import make_embeddings, index_documents
@@ -7,7 +5,6 @@ import math
 import re
 import hashlib
 
-# Simple sentence-aware splitter (keeps ~chunk_size characters)
 def split_into_passages(text: str, chunk_size: int = 800, overlap: int = 100) -> List[str]:
     if not text:
         return []

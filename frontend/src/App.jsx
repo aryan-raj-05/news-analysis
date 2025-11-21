@@ -92,8 +92,8 @@ export default function App() {
       <main className="flex-1 p-10">
         <div className="max-w-4xl mx-auto">
 
-          <h1 className="text-3xl font-bold text-gray-800 mb-8">
-            Financial RAG — Ask Questions
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+            AugmentNews
           </h1>
 
           {/* Question Box */}
@@ -115,7 +115,7 @@ export default function App() {
 
           {/* Answer Section */}
           <div className="bg-white border border-gray-200 rounded-lg shadow p-6">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-4">Answer</h2>
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">Response</h2>
 
             <div className="bg-gray-50 border border-gray-200 p-4 rounded-lg min-h-[100px] whitespace-pre-wrap text-gray-800">
               {answer}
