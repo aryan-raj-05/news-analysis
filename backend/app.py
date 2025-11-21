@@ -33,7 +33,7 @@ def query():
             return jsonify({"error": "No question provided under 'question' key."}), 400
         # retrieve top 4 passages
         retrieved = retrieve(question, top_k=4)
-        answer = generate_answer(question, retrieved, use_openai=True)
+        answer = generate_answer(question, retrieved)
         evidence = [{"url": r["doc"]["url"], "id": r["doc"]["id"], "score": r["score"]} for r in retrieved]
         return jsonify({"answer": answer, "evidence": evidence})
     except RuntimeError as e:
