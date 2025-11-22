@@ -14,9 +14,7 @@ def split_into_passages(text: str, chunk_size: int = 800, overlap: int = 100) ->
     L = len(text)
     while start < L:
         end = min(start + chunk_size, L)
-        # try to expand to nearest sentence end for readability
         if end < L:
-            # find last period before end
             idx = text.rfind(".", start, end)
             if idx != -1 and idx - start > chunk_size // 4:
                 end = idx + 1
@@ -35,7 +33,6 @@ def ingest_urls(urls: List[str]) -> int:
         item = scrape(u)
         passages = split_into_passages(item.get("text", ""), chunk_size=900, overlap=150)
         for i, p in enumerate(passages):
-            # stable id per url+index
             uid = hashlib.sha1(f"{u}||{i}".encode("utf-8")).hexdigest()
             docs.append({
                 "id": uid,
