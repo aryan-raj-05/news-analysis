@@ -10,7 +10,7 @@ import google.generativeai as genai
 load_dotenv()
 
 API_KEY = os.getenv("GOOGLE_API_KEY")
-genai.configure(api_key=API_KEY)
+genai.configure(api_key=API_KEY) # type: ignore
 
 _model = SentenceTransformer("all-MiniLM-L6-v2")
 
@@ -27,7 +27,7 @@ def index_documents(docs: List[Dict], embeddings: np.ndarray):
     global _index, _docs
     dim = embeddings.shape[1]
     _index = faiss.IndexFlatL2(dim)
-    _index.add(embeddings)
+    _index.add(embeddings) # type: ignore
     _docs = docs
 
 
@@ -36,7 +36,7 @@ def retrieve(query: str, top_k: int = 4) -> List[Dict]:
         raise RuntimeError("Index is empty. Please ingest documents first.")
 
     q_emb = _model.encode([query], convert_to_numpy=True).astype("float32")
-    distances, indices = _index.search(q_emb, top_k)
+    distances, indices = _index.search(q_emb, top_k) # type: ignore
 
     results = []
     for dist, idx in zip(distances[0], indices[0]):
@@ -63,7 +63,7 @@ def generate_answer(question: str, retrieved_passages: List[Dict]) -> str:
     )
 
     try:
-        model = genai.GenerativeModel("models/gemini-2.5-flash")
+        model = genai.GenerativeModel("models/gemini-2.5-flash") # type: ignore
         response = model.generate_content(prompt)
         print("Gemini raw response:", response)
         return response.text.strip()

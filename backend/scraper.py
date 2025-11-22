@@ -15,21 +15,18 @@ def scrape(url: str) -> dict:
     resp.raise_for_status()
     soup = BeautifulSoup(resp.text, "html.parser")
 
-    # Title
     title = soup.title.string.strip() if soup.title and soup.title.string else url
 
-    # Collect visible paragraphs
     paragraphs = []
     for p in soup.find_all("p"):
         text = p.get_text(separator=" ", strip=True)
         if text and len(text) > 30:
             paragraphs.append(text)
 
-    # Fallback: if no paragraphs found, try meta description
     if not paragraphs:
         desc = soup.find("meta", attrs={"name": "description"}) or soup.find("meta", attrs={"property": "og:description"})
         if desc and desc.get("content"):
-            paragraphs.append(desc.get("content").strip())
+            paragraphs.append(str(desc.get("content")).strip())
 
     text = "\n\n".join(paragraphs)
     return {"url": url, "title": title, "text": text}
